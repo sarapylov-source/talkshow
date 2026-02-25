@@ -1377,7 +1377,7 @@ body {
       </div>
       <div class="payment-options">
         <button class="btn btn-red" id="payCard" onclick="payByCard()" type="button">Оплатить картой</button>
-        <button class="btn btn-outline" onclick="payByCash()" type="button">По безналу</button>
+        <button class="btn btn-outline" id="payCash" onclick="payByCash()" type="button">По безналу</button>
       </div>
     </form>
   </div>
@@ -1438,7 +1438,11 @@ document.querySelectorAll('.faq-question').forEach(btn => {
   });
 });
 
-// ===== MODAL =====
+// ===== CONFIG =====
+const TG_BOT_TOKEN = '8447258387:AAFEutiJ1gxDWyPtKZS6HC9cQN3U2L-X6q4';
+const TG_CHAT_ID = '-5048576857';
+const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzpIDFvvOpURXQaVacrRgtIPFWk9o93awDF7waHjuhvWFuCPpA25oTrYswQL6Orn28p/exec';
+
 let currentPackage = '';
 const payLinks = {
   viewer: 'https://t.me/tribute/app?startapp=sApE',
@@ -1450,12 +1454,20 @@ const titles = {
   speaker: 'Пакет спикера — 45 000 ₽',
   pitch: 'Питч акулам — 45 000 ₽'
 };
+const packageNames = {
+  viewer: 'Зритель',
+  speaker: 'Спикер-Эксперт',
+  pitch: 'Питч акулам'
+};
 
 function openModal(pkg) {
   currentPackage = pkg;
   document.getElementById('modalTitle').textContent = titles[pkg] || 'Регистрация';
   document.getElementById('modalOverlay').classList.add('active');
   document.body.style.overflow = 'hidden';
+  // Reset form
+  document.getElementById('regForm').querySelectorAll('input').forEach(i => i.value = '');
+  setButtonsState('idle');
 }
 
 function closeModal() {
@@ -1477,19 +1489,147 @@ function validateForm() {
   return true;
 }
 
-function payByCard() {
+function getFormData() {
+  return {
+    name: document.getElementById('regName').value.trim(),
+    phone: document.getElementById('regPhone').value.trim(),
+    telegram: document.getElementById('regTg').value.trim(),
+    email: document.getElementById('regEmail').value.trim(),
+    package: packageNames[currentPackage] || currentPackage,
+    price: currentPackage === 'viewer' ? '15 000 ₽' : '45 000 ₽',
+    date: new Date().toLocaleString('ru-RU', {timeZone: 'Europe/Moscow'})
+  };
+}
+
+function setButtonsState(state) {
+  const cardBtn = document.getElementById('payCard');
+  const cashBtn = document.getElementById('payCash');
+  if (state === 'loading') {
+    cardBtn.disabled = true;
+    cashBtn.disabled = true;
+    cardBtn.textContent = 'Отправка...';
+    cardBtn.style.opacity = '0.6';
+    cashBtn.style.opacity = '0.6';
+  } else {
+    cardBtn.disabled = false;
+    cashBtn.disabled = false;
+    cardBtn.textContent = 'Оплатить картой';
+    cardBtn.style.opacity = '1';
+    cashBtn.style.opacity = '1';
+  }
+}
+
+// ===== TELEGRAM BOT =====
+async function sendToTelegram(data, paymentMethod) {
+  // Using HTML parse_mode to avoid Markdown escaping issues with underscores etc.
+  const text = `🔔 <b>Новая заявка с лендинга</b>\n\n` +
+    `👤 <b>Имя:</b> ${escapeHtml(data.name)}\n` +
+    `📞 <b>Телефон:</b> ${escapeHtml(data.phone)}\n` +
+    `✈️ <b>Telegram:</b> ${escapeHtml(data.telegram || '—')}\n` +
+    `📧 <b>Email:</b> ${escapeHtml(data.email || '—')}\n` +
+    `📦 <b>Пакет:</b> ${escapeHtml(data.package)}\n` +
+    `💰 <b>Цена:</b> ${escapeHtml(data.price)}\n` +
+    `💳 <b>Способ оплаты:</b> ${escapeHtml(paymentMethod)}\n` +
+    `🕐 <b>Время:</b> ${escapeHtml(data.date)}`;
+
+  try {
+    const resp = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        chat_id: TG_CHAT_ID,
+        text: text,
+        parse_mode: 'HTML'
+      })
+    });
+    const result = await resp.json();
+    if (!result.ok) {
+      console.error('Telegram API error:', result.description);
+      // Fallback: try without parse_mode in case of formatting issues
+      const plainText = `🔔 Новая заявка с лендинга\n\nИмя: ${data.name}\nТелефон: ${data.phone}\nTelegram: ${data.telegram || '—'}\nEmail: ${data.email || '—'}\nПакет: ${data.package}\nЦена: ${data.price}\nОплата: ${paymentMethod}\nВремя: ${data.date}`;
+      await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          chat_id: TG_CHAT_ID,
+          text: plainText
+        })
+      });
+    }
+  } catch(e) {
+    console.error('Telegram send error:', e);
+  }
+}
+
+function escapeHtml(str) {
+  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+// ===== GOOGLE SHEETS =====
+async function sendToGoogleSheets(data, paymentMethod) {
+  if (!GOOGLE_SCRIPT_URL) return;
+  try {
+    // Google Apps Script redirects on POST, so we use no-cors mode
+    // Data will be sent but we won't get a readable response (opaque)
+    await fetch(GOOGLE_SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: {'Content-Type': 'text/plain'},
+      body: JSON.stringify({
+        name: data.name,
+        phone: data.phone,
+        telegram: data.telegram,
+        email: data.email,
+        package: data.package,
+        price: data.price,
+        paymentMethod: paymentMethod,
+        date: data.date
+      })
+    });
+    console.log('Google Sheets: request sent');
+  } catch(e) {
+    console.error('Google Sheets send error:', e);
+  }
+}
+
+// ===== PAYMENT HANDLERS =====
+async function payByCard() {
   if (!validateForm()) return;
+  setButtonsState('loading');
+
+  const data = getFormData();
+
+  // Send to both services in parallel
+  await Promise.all([
+    sendToTelegram(data, 'Картой'),
+    sendToGoogleSheets(data, 'Картой')
+  ]);
+
+  // Redirect to payment
   const link = payLinks[currentPackage];
   if (link) window.open(link, '_blank');
+
+  setButtonsState('idle');
   closeModal();
 }
 
-function payByCash() {
+async function payByCash() {
   if (!validateForm()) return;
-  const name = document.getElementById('regName').value.trim();
-  const tg = document.getElementById('regTg').value.trim();
-  const msg = encodeURIComponent('Здравствуйте! Хочу оплатить по безналу. Пакет: ' + (titles[currentPackage] || '') + '. Имя: ' + name + (tg ? ', TG: ' + tg : ''));
+  setButtonsState('loading');
+
+  const data = getFormData();
+
+  // Send to both services in parallel
+  await Promise.all([
+    sendToTelegram(data, 'По безналу'),
+    sendToGoogleSheets(data, 'По безналу')
+  ]);
+
+  // Redirect to manager
+  const msg = encodeURIComponent('Здравствуйте! Хочу оплатить по безналу. Пакет: ' + data.package + ' (' + data.price + '). Имя: ' + data.name + (data.telegram ? ', TG: ' + data.telegram : ''));
   window.open('https://t.me/Yes_Yasya?text=' + msg, '_blank');
+
+  setButtonsState('idle');
   closeModal();
 }
 
