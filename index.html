@@ -438,6 +438,99 @@ body {
 }
 .vacant-slot a:hover { text-decoration: underline; }
 
+.sold-out-badge {
+  display: inline-block;
+  background: var(--red);
+  color: var(--white);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px 16px;
+  margin-top: 12px;
+}
+
+/* ===== FORMAT SECTION ===== */
+.format { background: var(--dark); }
+.format-text {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: var(--silver);
+  max-width: 800px;
+  margin-bottom: 48px;
+}
+.format-text strong { color: var(--white); }
+.compare-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 32px;
+}
+.compare-card {
+  padding: 40px 32px;
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.compare-card.compare-self {
+  background: var(--charcoal);
+}
+.compare-card.compare-show {
+  background: var(--charcoal);
+  border: 2px solid var(--red);
+  position: relative;
+}
+.compare-card.compare-show::after {
+  content: 'ВЫГОДНО';
+  position: absolute;
+  top: 0;
+  right: 32px;
+  background: var(--red);
+  color: var(--white);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  padding: 6px 14px;
+}
+.compare-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.6rem;
+  color: var(--white);
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+}
+.compare-list {
+  list-style: none;
+  margin-bottom: 24px;
+}
+.compare-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  font-size: 0.9rem;
+  color: var(--silver);
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+.compare-list .price {
+  color: var(--white);
+  font-weight: 700;
+  white-space: nowrap;
+}
+.compare-total {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2.5rem;
+  margin-top: 16px;
+}
+.compare-total.total-bad { color: var(--gray); }
+.compare-total.total-good { color: var(--red); }
+.compare-note {
+  font-size: 0.85rem;
+  color: var(--gray);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+@media (max-width: 768px) {
+  .compare-grid { grid-template-columns: 1fr !important; }
+}
+
 .timeline-break {
   background: transparent;
   border: 1px dashed rgba(255,255,255,0.1);
@@ -912,11 +1005,9 @@ body {
     <a href="#" class="nav-logo">ТОК-ШОУ: <span>Франчайзинг по-русски</span></a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#program">Программа</a></li>
-      <li><a href="#sharks">Акулы</a></li>
-      <li><a href="#pricing">Участие</a></li>
-      <li><a href="#venue">Место</a></li>
+      <li><a href="#format">Формат</a></li>
       <li><a href="#faq">FAQ</a></li>
-      <li><a href="#pricing" class="nav-cta">Купить билет</a></li>
+      <li><a href="#format" class="nav-cta">Купить билет</a></li>
     </ul>
     <button class="hamburger" id="hamburger" aria-label="Меню">
       <span></span><span></span><span></span>
@@ -942,7 +1033,7 @@ body {
         </div>
         <div class="hero-meta-item">
           <div class="hero-meta-icon">📍</div>
-          <div class="hero-meta-text"><strong>Москва</strong>Стендап Клуб Still</div>
+          <div class="hero-meta-text"><strong>Москва</strong>Площадка уточняется</div>
         </div>
         <div class="hero-meta-item">
           <div class="hero-meta-icon">🎬</div>
@@ -950,7 +1041,7 @@ body {
         </div>
       </div>
       <div class="hero-buttons">
-        <a href="#pricing" class="btn btn-red">Участвовать</a>
+        <a href="#format" class="btn btn-red">Участвовать</a>
         <a href="https://t.me/+9r_ooRQLEDg0MmM6" target="_blank" class="btn btn-outline">Telegram-сообщество</a>
       </div>
     </div>
@@ -986,8 +1077,8 @@ body {
       </div>
       <div>
         <div class="about-stats">
-          <div class="stat-card"><div class="stat-num">4</div><div class="stat-label">Модуля дискуссий</div></div>
-          <div class="stat-card"><div class="stat-num">12+</div><div class="stat-label">Экспертов на сцене</div></div>
+          <div class="stat-card"><div class="stat-num">5</div><div class="stat-label">Модулей дискуссий</div></div>
+          <div class="stat-card"><div class="stat-num">20+</div><div class="stat-label">Экспертов на сцене</div></div>
           <div class="stat-card"><div class="stat-num">2000+</div><div class="stat-label">Участников сообщества</div></div>
           <div class="stat-card"><div class="stat-num">10</div><div class="stat-label">Reels каждому спикеру</div></div>
         </div>
@@ -1081,21 +1172,30 @@ body {
               <img src="dolgov.jpg" alt="Александр Долгов">
               <div class="timeline-speaker-info"><strong>Александр Долгов</strong><span>Основатель 20x80, 800+ франчайзи</span></div>
             </div>
-            <div class="vacant-slot">
-              <div class="vacant-dot">+</div>
-              <a href="#" onclick="openModal('speaker'); return false;">Стать экспертом →</a>
+            <div class="timeline-speaker">
+              <img src="zaripov.jpg" alt="Артур Зарипов">
+              <div class="timeline-speaker-info"><strong>Артур Зарипов</strong><span>Основатель сети клиник BIORISE</span></div>
             </div>
-            <div class="vacant-slot">
-              <div class="vacant-dot">+</div>
-              <a href="#" onclick="openModal('speaker'); return false;">Стать экспертом →</a>
+            <div class="timeline-speaker">
+              <img src="kabanova.jpg" alt="Екатерина Кабанова">
+              <div class="timeline-speaker-info"><strong>Екатерина Кабанова</strong><span>Специалист по франчайзингу и построению отделов продаж</span></div>
             </div>
           </div>
+          <div class="sold-out-badge">Мест больше нет</div>
+        </div>
+      </div>
+
+      <!-- Lunch -->
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot">13:45</div>
+        <div class="timeline-content timeline-break">
+          <div class="timeline-title">🍽️ Обед</div>
         </div>
       </div>
 
       <!-- Module 4 -->
       <div class="timeline-item fade-in">
-        <div class="timeline-dot">13:45</div>
+        <div class="timeline-dot">15:00</div>
         <div class="timeline-content">
           <div class="timeline-module">Модуль 4 · Дискуссия</div>
           <div class="timeline-title">Упаковка франшизы: внешний лоск vs внутренние процессы</div>
@@ -1108,6 +1208,38 @@ body {
               <img src="oputin.jpg" alt="Женя Опутин">
               <div class="timeline-speaker-info"><strong>Женя Опутин</strong><span>Дизайн-директор Vagabond Agency, ex-Dodo Brands</span></div>
             </div>
+            <div class="timeline-speaker">
+              <img src="kharitonova.png" alt="Анна Харитонова">
+              <div class="timeline-speaker-info"><strong>Анна Харитонова</strong><span>Основатель компании «Лидер Франшиз»</span></div>
+            </div>
+            <div class="timeline-speaker">
+              <img src="vorobiev.jpg" alt="Михаил Воробьёв">
+              <div class="timeline-speaker-info"><strong>Михаил Воробьёв</strong><span>Основатель франшизы «Место Пряток»</span></div>
+            </div>
+          </div>
+          <div class="sold-out-badge">Мест больше нет</div>
+        </div>
+      </div>
+
+      <!-- Module 5 -->
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot">16:15</div>
+        <div class="timeline-content" style="border-color: var(--red);">
+          <div class="timeline-module">Модуль 5 · Дискуссия</div>
+          <div class="timeline-title">🔥 Будущее франчайзинга в России: риски, угрозы и возможности</div>
+          <div class="timeline-speakers">
+            <div class="timeline-speaker">
+              <img src="nabiullin.jpg" alt="Ильназ Набиуллин">
+              <div class="timeline-speaker-info"><strong>Ильназ Набиуллин</strong><span>🥇 Лидер франчайзинга, 1000+ точек · Чио Чио</span></div>
+            </div>
+            <div class="timeline-speaker">
+              <img src="mansurova.jpg" alt="Анастасия Мансурова">
+              <div class="timeline-speaker-info"><strong>Анастасия Мансурова</strong><span>Систематизирует SMM внутри франшиз</span></div>
+            </div>
+            <div class="vacant-slot">
+              <div class="vacant-dot">+</div>
+              <a href="#" onclick="openModal('speaker'); return false;">Стать экспертом →</a>
+            </div>
             <div class="vacant-slot">
               <div class="vacant-dot">+</div>
               <a href="#" onclick="openModal('speaker'); return false;">Стать экспертом →</a>
@@ -1120,29 +1252,11 @@ body {
         </div>
       </div>
 
-      <!-- Lunch -->
-      <div class="timeline-item fade-in">
-        <div class="timeline-dot">15:00</div>
-        <div class="timeline-content timeline-break">
-          <div class="timeline-title">🍽️ Обед</div>
-        </div>
-      </div>
-
-      <!-- Pitches -->
-      <div class="timeline-item fade-in">
-        <div class="timeline-dot">16:00</div>
-        <div class="timeline-content" style="border-color: var(--red);">
-          <div class="timeline-module">Этап 2 · Съёмки</div>
-          <div class="timeline-title">🔥 Питчи «Акулам франчайзинга»</div>
-          <p style="color:var(--gray); font-size:0.9rem; line-height:1.6; margin-top:8px;">Предприниматели выходят на сцену и презентуют свои проекты собственникам сетей с сотнями точек. Живой фидбэк, жёсткие вопросы, реальные рекомендации.</p>
-        </div>
-      </div>
-
       <!-- Close -->
       <div class="timeline-item fade-in">
-        <div class="timeline-dot">19:00</div>
+        <div class="timeline-dot">17:30</div>
         <div class="timeline-content timeline-break">
-          <div class="timeline-title">🥂 Закрытие, фуршет, нетворкинг</div>
+          <div class="timeline-title">🥂 Фуршет, нетворкинг</div>
         </div>
       </div>
 
@@ -1150,115 +1264,70 @@ body {
   </div>
 </section>
 
-<!-- SHARKS -->
-<section class="section sharks" id="sharks">
+<!-- FORMAT -->
+<section class="section format" id="format">
   <div class="container">
-    <div class="section-title">Акулы <span class="red">франчайзинга</span></div>
-    <div class="section-subtitle">Собственники крупнейших сетей оценят ваш проект и дадут обратную связь</div>
+    <div class="section-title">Это не <span class="red">конференция</span></div>
+    <div class="section-subtitle">Формат, который работает на вас ещё 6 месяцев после мероприятия</div>
 
-    <div class="sharks-grid">
-      <div class="shark-card fade-in">
-        <img src="dolgov.jpg" alt="Александр Долгов" class="shark-photo">
-        <div class="shark-name">Александр Долгов</div>
-        <div class="shark-role">Основатель холдинга 20x80<br>800+ франчайзи · Чебурек.Ми · Laser.Love</div>
+    <div class="format-text fade-in">
+      <strong>ТОК-ШОУ «Франчайзинг по-русски»</strong> — это не конференция и не форум. Это <strong>контент-площадка</strong>, где мы снимаем профессиональный видеоконтент для сообщества, всех участников модулей и медиа-партнёров.<br><br>
+      Каждая дискуссия снимается на профессиональное оборудование многокамерной съёмкой. Из материалов монтируются полноформатные выпуски и короткие вертикальные ролики (Reels, Shorts, VK Clips).<br><br>
+      Контент транслируется в каналах партнёров, в сообществе и на других площадках <strong>в течение следующих 6 месяцев</strong>. Вы не просто выступаете — вы получаете медийный охват, который работает на вас долго после мероприятия.
+    </div>
+
+    <div class="fade-in" style="margin-bottom:48px;">
+      <img src="studio-photo.png" alt="Съёмки ТОК-ШОУ Франчайзинг по-русски" style="width:100%; border: 1px solid rgba(255,255,255,0.1);">
+    </div>
+
+    <div class="section-title" style="font-size:clamp(1.8rem,4vw,3rem); margin-bottom:32px;">Сравните <span class="red">стоимость</span></div>
+
+    <div class="compare-grid" style="grid-template-columns: repeat(3, 1fr);">
+      <div class="compare-card compare-self fade-in">
+        <div class="compare-title">Самостоятельные съёмки</div>
+        <ul class="compare-list">
+          <li><span>Аренда студии</span><span class="price">50 000 ₽</span></li>
+          <li><span>Съёмочная команда</span><span class="price">100 000 ₽</span></li>
+          <li><span>Продюсер</span><span class="price">50 000 ₽</span></li>
+          <li><span>Монтаж материала</span><span class="price">50 000 ₽</span></li>
+        </ul>
+        <div class="compare-total total-bad">250 000 ₽</div>
+        <div class="compare-note">В кадре только вы. Такие видео мало кому интересны. Размещение ищете сами или платите за дистрибуцию отдельно.</div>
       </div>
-      <div class="shark-card fade-in">
-        <img src="nabiullin.jpg" alt="Ильназ Набиуллин" class="shark-photo">
-        <div class="shark-name">Ильназ Набиуллин</div>
-        <div class="shark-role">🥇 Лидер франчайзинга<br>1000+ точек · Чио Чио</div>
+
+      <div class="compare-card compare-show fade-in">
+        <div class="compare-title">Спикер ТОК-ШОУ</div>
+        <ul class="compare-list">
+          <li><span>Профессиональная съёмка</span><span class="price">✓</span></li>
+          <li><span>Полный смонтированный материал</span><span class="price">✓</span></li>
+          <li><span>10 вертикальных Reels</span><span class="price">✓</span></li>
+          <li><span>Интересные оппоненты в кадре</span><span class="price">✓</span></li>
+          <li><span>Медийный охват 6 мес.</span><span class="price">✓</span></li>
+          <li><span>Нетворкинг + обед + фуршет</span><span class="price">✓</span></li>
+        </ul>
+        <div class="compare-total total-good">45 000 ₽</div>
+        <div class="compare-note">Готовый контент, живые дискуссии с лидерами рынка и дистрибуция на аудиторию сообщества.</div>
+        <a href="#" onclick="openModal('speaker'); return false;" class="btn btn-red" style="width:100%; text-align:center; margin-top:20px; font-size:1rem; padding:14px 16px;">Стать спикером</a>
       </div>
-      <div class="shark-card fade-in">
-        <img src="sarapulov.jpg" alt="Семён Сарапулов" class="shark-photo">
-        <div class="shark-name">Семён Сарапулов</div>
-        <div class="shark-role">Основатель «Франчайзинг по-русски»<br>Создатель Zoltor, Перспектива 24</div>
-      </div>
-      <div class="shark-card shark-vacant fade-in">
-        <div class="vacant-circle">?</div>
-        <div class="shark-name" style="color:var(--red);">Ваше место</div>
-        <div class="shark-role" style="margin-bottom:16px;">Станьте акулой франчайзинга на нашем ток-шоу</div>
-        <a href="https://t.me/frguru" target="_blank" class="btn btn-outline" style="font-size:0.9rem; padding:10px 24px;">Записаться акулой</a>
+
+      <div class="compare-card fade-in" style="border: 1px solid rgba(255,255,255,0.1);">
+        <div class="compare-title">Зритель</div>
+        <ul class="compare-list">
+          <li><span>Просмотр всех дискуссий</span><span class="price">✓</span></li>
+          <li><span>Присутствие на съёмках</span><span class="price">✓</span></li>
+          <li><span>Нетворкинг с экспертами</span><span class="price">✓</span></li>
+          <li><span>Обед включён</span><span class="price">✓</span></li>
+          <li><span>Фуршет</span><span class="price">✓</span></li>
+        </ul>
+        <div class="compare-total total-good">15 000 ₽</div>
+        <div class="compare-note">Посмотрите как снимается контент, познакомьтесь с лидерами рынка франчайзинга.</div>
+        <a href="#" onclick="openModal('viewer'); return false;" class="btn btn-outline" style="width:100%; text-align:center; margin-top:20px; font-size:1rem; padding:14px 16px;">Купить билет</a>
       </div>
     </div>
 
-    <div class="pitch-cta">
-      <p style="color:var(--gray); margin-bottom:20px; font-size:1.05rem;">Хотите представить свою франшизу акулам?</p>
-      <a href="#" onclick="openModal('pitch'); return false;" class="btn btn-red" style="font-size:1.6rem; padding:20px 60px;">🎤 Запитчить франшизу акулам</a>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section class="section pricing" id="pricing">
-  <div class="container">
-    <div class="section-title">Варианты <span class="red">участия</span></div>
-    <div class="section-subtitle">Ранняя цена действует до 1 марта 2026</div>
-
-    <div class="pricing-grid">
-
-      <div class="price-card fade-in">
-        <div class="price-name">Зритель</div>
-        <div class="price-amount">15 000 ₽</div>
-        <div class="price-note">при оплате до 1 марта</div>
-        <ul class="price-features">
-          <li>Просмотр всех дискуссий и питчей</li>
-          <li>Присутствие на съёмках ток-шоу</li>
-          <li>Нетворкинг и фуршет</li>
-          <li>Обед включён</li>
-        </ul>
-        <a href="#" onclick="openModal('viewer'); return false;" class="btn btn-outline price-btn">Купить билет</a>
-      </div>
-
-      <div class="price-card featured fade-in">
-        <div class="price-name">Спикер — Эксперт</div>
-        <div class="price-amount">45 000 ₽</div>
-        <div class="price-note">при оплате до 1 марта</div>
-        <ul class="price-features">
-          <li>Участие в экспертной дискуссии на сцене</li>
-          <li>Профессиональная видеосъёмка</li>
-          <li>Полный отснятый и смонтированный материал</li>
-          <li>10 вертикальных Reels для соцсетей</li>
-          <li>Нетворкинг и фуршет</li>
-          <li>Обед включён</li>
-        </ul>
-        <a href="#" onclick="openModal('speaker'); return false;" class="btn btn-red price-btn">Стать спикером</a>
-      </div>
-
-      <div class="price-card fade-in">
-        <div class="price-name">Питч акулам</div>
-        <div class="price-amount">45 000 ₽</div>
-        <div class="price-note">при оплате до 1 марта</div>
-        <ul class="price-features">
-          <li>Выступление перед акулами франчайзинга</li>
-          <li>Фидбэк от собственников крупных сетей</li>
-          <li>Профессиональная видеосъёмка</li>
-          <li>Полный отснятый и смонтированный материал</li>
-          <li>10 вертикальных Reels для соцсетей</li>
-          <li>Нетворкинг и фуршет</li>
-          <li>Обед включён</li>
-        </ul>
-        <a href="#" onclick="openModal('pitch'); return false;" class="btn btn-red price-btn">Запитчить проект</a>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- VENUE -->
-<section class="section venue" id="venue">
-  <div class="container">
-    <div class="section-title">Место <span class="red">проведения</span></div>
-    <div style="margin-top:40px;" class="venue-grid">
-      <div class="venue-info fade-in">
-        <h3>Стендап Клуб Still</h3>
-        <div class="venue-detail"><span class="venue-detail-icon">📍</span>Улица Покровка, 17 ст5, Москва</div>
-        <div class="venue-detail"><span class="venue-detail-icon">🚇</span>м. Чистые Пруды / Китай-город</div>
-        <div class="venue-detail"><span class="venue-detail-icon">📅</span>15 марта 2026, воскресенье</div>
-        <div class="venue-detail"><span class="venue-detail-icon">⏰</span>Сбор с 09:30, начало в 10:00</div>
-        <p style="margin-top:20px;">Площадь Покровские ворота — самый центр Москвы. Камерное пространство идеально подходит для съёмок и живого общения.</p>
-      </div>
-      <div class="fade-in">
-        <iframe class="venue-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2245.2!2d37.6485!3d55.7595!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTXCsDQ1JzM0LjIiTiAzN8KwMzgnNTQuNiJF!5e0!3m2!1sru!2sru!4v1" allowfullscreen loading="lazy"></iframe>
-      </div>
+    <div style="text-align:center; margin-top:48px;" class="fade-in">
+      <p style="color:var(--gray); margin-bottom:16px;">Остались вопросы? Свяжитесь с менеджером</p>
+      <a href="https://t.me/Yes_Yasya" target="_blank" class="btn btn-outline" style="font-size:1.1rem; padding:16px 40px;">Написать менеджеру @Yes_Yasya</a>
     </div>
   </div>
 </section>
@@ -1290,7 +1359,7 @@ body {
 
       <div class="faq-item">
         <button class="faq-question">Что я получу как зритель?</button>
-        <div class="faq-answer"><p>Вы будете присутствовать на съёмках всех дискуссионных модулей и питчей перед акулами. После мероприятия — нетворкинг и фуршет с экспертами и участниками. Обед включён в стоимость.</p></div>
+        <div class="faq-answer"><p>Вы будете присутствовать на съёмках всех дискуссионных модулей. После мероприятия — нетворкинг и фуршет с экспертами и участниками. Обед включён в стоимость.</p></div>
       </div>
 
       <div class="faq-item">
