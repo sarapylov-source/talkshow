@@ -743,6 +743,24 @@ body {
   transition: filter 0.4s;
 }
 .venue-map:hover { filter: grayscale(20%); }
+.venue-gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-top: 24px;
+}
+.venue-gallery img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border: 1px solid rgba(255,255,255,0.05);
+  transition: transform 0.3s;
+}
+.venue-gallery img:hover { transform: scale(1.02); }
+@media (max-width: 600px) {
+  .venue-gallery { grid-template-columns: 1fr; }
+  .venue-gallery img { height: 180px; }
+}
 
 /* ===== REVIEWS ===== */
 .reviews { background: var(--dark); }
@@ -1006,6 +1024,7 @@ body {
     <ul class="nav-links" id="navLinks">
       <li><a href="#program">Программа</a></li>
       <li><a href="#format">Формат</a></li>
+      <li><a href="#venue">Место</a></li>
       <li><a href="#faq">FAQ</a></li>
       <li><a href="#format" class="nav-cta">Купить билет</a></li>
     </ul>
@@ -1025,15 +1044,15 @@ body {
         <span class="line2">Франчайзинг</span><br>
         <span class="line1">по-русски</span>
       </h1>
-      <p class="hero-desc">Оффлайн-мероприятие со съёмками: дискуссии экспертов, питчи акулам франчайзинга, нетворкинг и фуршет. Одно место — все ключевые игроки рынка.</p>
+      <p class="hero-desc">Оффлайн-мероприятие со съёмками: дискуссии экспертов, нетворкинг. Одно место — все ключевые игроки рынка.</p>
       <div class="hero-meta">
         <div class="hero-meta-item">
           <div class="hero-meta-icon">📅</div>
-          <div class="hero-meta-text"><strong>15 марта 2026</strong>Воскресенье, 09:30</div>
+          <div class="hero-meta-text"><strong>15 марта 2026</strong>Воскресенье, 10:30</div>
         </div>
         <div class="hero-meta-item">
           <div class="hero-meta-icon">📍</div>
-          <div class="hero-meta-text"><strong>Москва</strong>Площадка уточняется</div>
+          <div class="hero-meta-text"><strong>Москва</strong>Лофт Frame, Болотная наб.</div>
         </div>
         <div class="hero-meta-item">
           <div class="hero-meta-icon">🎬</div>
@@ -1095,9 +1114,9 @@ body {
 
     <div class="timeline">
 
-      <!-- 09:30 -->
+      <!-- 10:30 -->
       <div class="timeline-item fade-in">
-        <div class="timeline-dot">09:30</div>
+        <div class="timeline-dot">10:30</div>
         <div class="timeline-content timeline-break">
           <div class="timeline-title">☕ Сбор гостей, кофе, знакомства</div>
         </div>
@@ -1105,7 +1124,7 @@ body {
 
       <!-- Module 1 -->
       <div class="timeline-item fade-in">
-        <div class="timeline-dot">10:00</div>
+        <div class="timeline-dot">11:00</div>
         <div class="timeline-content">
           <div class="timeline-module">Модуль 1 · Дискуссия</div>
           <div class="timeline-title">Юридические и налоговые изменения в 2026 году и их влияние на франчайзинг</div>
@@ -1132,7 +1151,7 @@ body {
 
       <!-- Module 2 -->
       <div class="timeline-item fade-in">
-        <div class="timeline-dot">11:15</div>
+        <div class="timeline-dot">12:15</div>
         <div class="timeline-content">
           <div class="timeline-module">Модуль 2 · Дискуссия</div>
           <div class="timeline-title">Ресторанный франчайзинг в 2026 году</div>
@@ -1157,9 +1176,17 @@ body {
         </div>
       </div>
 
+      <!-- Lunch -->
+      <div class="timeline-item fade-in">
+        <div class="timeline-dot">13:15</div>
+        <div class="timeline-content timeline-break">
+          <div class="timeline-title">🍽️ Обед</div>
+        </div>
+      </div>
+
       <!-- Module 3 -->
       <div class="timeline-item fade-in">
-        <div class="timeline-dot">12:30</div>
+        <div class="timeline-dot">14:15</div>
         <div class="timeline-content">
           <div class="timeline-module">Модуль 3 · Дискуссия</div>
           <div class="timeline-title">Маркетинг, трафик и продажи франшиз. Как не уронить продажи в 2026?</div>
@@ -1185,17 +1212,9 @@ body {
         </div>
       </div>
 
-      <!-- Lunch -->
-      <div class="timeline-item fade-in">
-        <div class="timeline-dot">13:45</div>
-        <div class="timeline-content timeline-break">
-          <div class="timeline-title">🍽️ Обед</div>
-        </div>
-      </div>
-
       <!-- Module 4 -->
       <div class="timeline-item fade-in">
-        <div class="timeline-dot">15:00</div>
+        <div class="timeline-dot">15:30</div>
         <div class="timeline-content">
           <div class="timeline-module">Модуль 4 · Дискуссия</div>
           <div class="timeline-title">Упаковка франшизы: внешний лоск vs внутренние процессы</div>
@@ -1223,7 +1242,7 @@ body {
 
       <!-- Module 5 -->
       <div class="timeline-item fade-in">
-        <div class="timeline-dot">16:15</div>
+        <div class="timeline-dot">16:45</div>
         <div class="timeline-content" style="border-color: var(--red);">
           <div class="timeline-module">Модуль 5 · Дискуссия</div>
           <div class="timeline-title">🔥 Будущее франчайзинга в России: риски, угрозы и возможности</div>
@@ -1252,11 +1271,11 @@ body {
         </div>
       </div>
 
-      <!-- Close -->
+      <!-- Finale -->
       <div class="timeline-item fade-in">
-        <div class="timeline-dot">17:30</div>
+        <div class="timeline-dot">18:00</div>
         <div class="timeline-content timeline-break">
-          <div class="timeline-title">🥂 Фуршет, нетворкинг</div>
+          <div class="timeline-title">🥂 Финал, нетворкинг, фуршет</div>
         </div>
       </div>
 
@@ -1303,7 +1322,7 @@ body {
           <li><span>10 вертикальных Reels</span><span class="price">✓</span></li>
           <li><span>Интересные оппоненты в кадре</span><span class="price">✓</span></li>
           <li><span>Медийный охват 6 мес.</span><span class="price">✓</span></li>
-          <li><span>Нетворкинг + обед + фуршет</span><span class="price">✓</span></li>
+          <li><span>Нетворкинг с экспертами</span><span class="price">✓</span></li>
         </ul>
         <div class="compare-total total-good">45 000 ₽</div>
         <div class="compare-note">Готовый контент, живые дискуссии с лидерами рынка и дистрибуция на аудиторию сообщества.</div>
@@ -1316,8 +1335,6 @@ body {
           <li><span>Просмотр всех дискуссий</span><span class="price">✓</span></li>
           <li><span>Присутствие на съёмках</span><span class="price">✓</span></li>
           <li><span>Нетворкинг с экспертами</span><span class="price">✓</span></li>
-          <li><span>Обед включён</span><span class="price">✓</span></li>
-          <li><span>Фуршет</span><span class="price">✓</span></li>
         </ul>
         <div class="compare-total total-good">15 000 ₽</div>
         <div class="compare-note">Посмотрите как снимается контент, познакомьтесь с лидерами рынка франчайзинга.</div>
@@ -1328,6 +1345,29 @@ body {
     <div style="text-align:center; margin-top:48px;" class="fade-in">
       <p style="color:var(--gray); margin-bottom:16px;">Остались вопросы? Свяжитесь с менеджером</p>
       <a href="https://t.me/Yes_Yasya" target="_blank" class="btn btn-outline" style="font-size:1.1rem; padding:16px 40px;">Написать менеджеру @Yes_Yasya</a>
+    </div>
+  </div>
+</section>
+
+<!-- VENUE -->
+<section class="section venue" id="venue">
+  <div class="container">
+    <div class="section-title">Место <span class="red">проведения</span></div>
+    <div style="margin-top:40px;" class="venue-grid">
+      <div class="venue-info fade-in">
+        <h3>Лофт Frame</h3>
+        <div class="venue-detail"><span class="venue-detail-icon">📍</span>Москва, Болотная наб., 3, стр. 4, 2 этаж</div>
+        <div class="venue-detail"><span class="venue-detail-icon">📅</span>15 марта 2026, воскресенье</div>
+        <div class="venue-detail"><span class="venue-detail-icon">⏰</span>Сбор с 10:30, начало в 11:00</div>
+        <div class="venue-gallery fade-in">
+          <img src="venue1.png" alt="Лофт Frame — зал">
+          <img src="venue2.png" alt="Лофт Frame — интерьер">
+          <img src="venue3.png" alt="Лофт Frame — атмосфера">
+        </div>
+      </div>
+      <div class="fade-in">
+        <iframe class="venue-map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2246.0!2d37.6097!3d55.7422!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x46b54beb47cc39e1%3A0x5765a04396abce5e!2z0JHQvtC70L7RgtC90LDRjyDQvdCw0LEuLCAzLCDRgdGC0YAuIDQsINCc0L7RgdC60LLQsA!5e0!3m2!1sru!2sru!4v1" allowfullscreen loading="lazy"></iframe>
+      </div>
     </div>
   </div>
 </section>
@@ -1359,12 +1399,12 @@ body {
 
       <div class="faq-item">
         <button class="faq-question">Что я получу как зритель?</button>
-        <div class="faq-answer"><p>Вы будете присутствовать на съёмках всех дискуссионных модулей. После мероприятия — нетворкинг и фуршет с экспертами и участниками. Обед включён в стоимость.</p></div>
+        <div class="faq-answer"><p>Вы будете присутствовать на съёмках всех дискуссионных модулей. После мероприятия — нетворкинг с экспертами и участниками.</p></div>
       </div>
 
       <div class="faq-item">
         <button class="faq-question">Что входит в пакет спикера?</button>
-        <div class="faq-answer"><p>Участие в экспертной дискуссии на сцене одного из модулей. Вы получите в своё полное распоряжение весь отснятый и смонтированный материал, а также 10 коротких вертикальных видео, готовых к размещению в социальных сетях. Плюс обед, нетворкинг и фуршет.</p></div>
+        <div class="faq-answer"><p>Участие в экспертной дискуссии на сцене одного из модулей. Вы получите в своё полное распоряжение весь отснятый и смонтированный материал, а также 10 коротких вертикальных видео, готовых к размещению в социальных сетях. Плюс нетворкинг с лидерами рынка.</p></div>
       </div>
 
       <div class="faq-item">
@@ -1455,7 +1495,7 @@ body {
 <script>
 // ===== COUNTDOWN =====
 function updateCountdown() {
-  const target = new Date('2026-03-15T09:30:00+03:00');
+  const target = new Date('2026-03-15T10:30:00+03:00');
   const now = new Date();
   const diff = target - now;
   if (diff <= 0) {
